@@ -1,15 +1,15 @@
 ---
-name: wecom-chat-vault
+name: wecomcracker
 description: "从当前 Windows 用户自己的企业微信本地聊天中重建个人工作历史：整理有证据支持的时间线，找回任务与承诺，识别决定、期限、交付物、阻塞、依赖、已完成事项和未闭环跟进，并生成可审阅的项目管理交接预览。当企业微信 API 或 CLI 的历史范围不足时，使用零第三方 Python 依赖、Windows CNG 和不可变只读 SQLite 查询来解密、校验、检查、列出和搜索本地 wxSQLite3 数据库。不得用于其他人的账号、远程机器、绕过 Windows 权限、发送消息，或把推断出的任务直接写入外部项目系统。"
 ---
 
-# 企微工作回溯
+# WeComCracker：企微工作回溯
 
-把用户自己的企业微信历史对话整理成可靠的个人工作记忆：谁提出了什么、承诺了什么、做了什么决定、交付了什么、被什么阻塞、哪些要求已被替代，以及哪些事项尚未闭环。确保每个结论都能追溯到聊天记录或用户明确授权读取的文件证据。
+使用 WeComCracker 把用户自己的企业微信历史对话整理成可靠的个人工作记忆：谁提出了什么、承诺了什么、做了什么决定、交付了什么、被什么阻塞、哪些要求已被替代，以及哪些事项尚未闭环。确保每个结论都能追溯到聊天记录或用户明确授权读取的文件证据。
 
 本版本只生成供用户审阅的工作摘要和项目交接预览。不要仅凭本 Skill 在 Vikunja、Microsoft Project 或其他外部系统中创建或更新事项。
 
-使用 `scripts/wecom_chat_vault.py`。该脚本只导入 Python 标准库，并调用 Windows `kernel32.dll` 和 `bcrypt.dll`。
+使用 `scripts/wecomcracker.py`。该脚本只导入 Python 标准库，并调用 Windows `kernel32.dll` 和 `bcrypt.dll`。旧命令名 `scripts/wecom_chat_vault.py` 仅作为兼容入口保留。
 
 ## 安全边界
 
@@ -29,14 +29,14 @@ description: "从当前 Windows 用户自己的企业微信本地聊天中重建
 先检查运行环境，再发现数据源：
 
 ```powershell
-python scripts/wecom_chat_vault.py doctor
-python scripts/wecom_chat_vault.py discover
+python scripts/wecomcracker.py doctor
+python scripts/wecomcracker.py discover
 ```
 
 如果自动发现遗漏了自定义位置，传入其配置的父目录：
 
 ```powershell
-python scripts/wecom_chat_vault.py discover --data-root 'E:\WeCom\WXWork'
+python scripts/wecomcracker.py discover --data-root 'E:\WeCom\WXWork'
 ```
 
 选择 `message.db`、`session.db` 和 `user.db` 修改时间最新的 `Data` 目录。若多个账号都有可能，先询问用户再选择。
@@ -46,7 +46,7 @@ python scripts/wecom_chat_vault.py discover --data-root 'E:\WeCom\WXWork'
 在企业微信源目录之外选择一个全新的输出目录：
 
 ```powershell
-python scripts/wecom_chat_vault.py decrypt `
+python scripts/wecomcracker.py decrypt `
   --db-dir '<账号目录>\Data' `
   --out-dir '<全新的明文输出目录>' `
   --timeout 120 `
@@ -70,15 +70,15 @@ python scripts/wecom_chat_vault.py decrypt `
 查询使用 `mode=ro&immutable=1` 和 `PRAGMA query_only=ON`；不会在明文快照中创建 SQLite WAL/SHM 边车文件。
 
 ```powershell
-python scripts/wecom_chat_vault.py inspect --decrypted-dir '<快照目录>'
+python scripts/wecomcracker.py inspect --decrypted-dir '<快照目录>'
 
-python scripts/wecom_chat_vault.py sessions `
+python scripts/wecomcracker.py sessions `
   --decrypted-dir '<快照目录>' --keyword 'AI' --limit 50
 
-python scripts/wecom_chat_vault.py messages `
+python scripts/wecomcracker.py messages `
   --decrypted-dir '<快照目录>' --conversation-id '<会话 ID>' --limit 100
 
-python scripts/wecom_chat_vault.py search `
+python scripts/wecomcracker.py search `
   --decrypted-dir '<快照目录>' --keyword '待办' --limit 100
 ```
 

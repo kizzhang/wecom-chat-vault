@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Synthetic, zero-dependency safety tests for WeCom Chat Vault."""
+"""Synthetic, zero-dependency safety tests for WeComCracker."""
 
 from __future__ import annotations
 
@@ -13,8 +13,8 @@ import sys
 import tempfile
 
 
-SCRIPT = Path(__file__).with_name("wecom_chat_vault.py")
-SPEC = importlib.util.spec_from_file_location("wecom_chat_vault", SCRIPT)
+SCRIPT = Path(__file__).with_name("wecomcracker.py")
+SPEC = importlib.util.spec_from_file_location("wecomcracker", SCRIPT)
 if SPEC is None or SPEC.loader is None:
     raise RuntimeError(f"Could not import {SCRIPT}")
 vault = importlib.util.module_from_spec(SPEC)
@@ -63,7 +63,7 @@ def expect_error(error_type: type[Exception], operation) -> None:
 
 def main() -> int:
     checks: dict[str, object] = {}
-    with tempfile.TemporaryDirectory(prefix="wecom-chat-vault-test-") as raw_root:
+    with tempfile.TemporaryDirectory(prefix="wecomcracker-test-") as raw_root:
         root = Path(raw_root)
         source = root / "account" / "Data"
         create_fixture(source)
