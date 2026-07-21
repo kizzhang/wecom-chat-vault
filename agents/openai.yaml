@@ -1,7 +1,7 @@
 interface:
-  display_name: "企微工作回溯"
+  display_name: "WeComCracker"
   short_description: "从自己的企微历史中重建工作时间线、任务与项目交接"
   icon_small: "./assets/icon-b-clean-wecom-128.png"
   icon_large: "./assets/icon-b-clean-wecom-256.png"
   brand_color: "#008AE8"
-  default_prompt: "使用 $wecom-chat-vault 回顾我自己的企业微信历史，整理有证据支持的工作时间线、任务清单和项目交接预览。"
+  default_prompt: "使用 $wecomcracker 回顾我自己的企业微信历史，整理有证据支持的工作时间线、任务清单和项目交接预览。"
